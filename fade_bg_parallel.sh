@@ -40,6 +40,6 @@ generate_fades () {
 }
 export -f generate_fades
 
-seq -f "%04g" $INDEX 1000 | parallel -j3 generate_fades # Limit to 3 proc. #####
+seq -f "%04g" $INDEX 1000 | parallel -j7 generate_fades # Limit to 3 proc. #####
 
 
