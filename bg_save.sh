@@ -8,7 +8,7 @@ then
 fi
 
 cd ~/pictures/backgrounds
-mv temp/_cur.jpg ./$1.jpg
+cp temp/_cur.jpg ./$1.jpg
 
 echo "Saved as $1.jpg in ~/pictures/backgrounds"
 
