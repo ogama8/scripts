@@ -1,4 +1,25 @@
 #!/bin/bash ####################################################################
+# Eli Backer - July 2016 - derbacker.us                                        #
+## -------------------------------------------------------------------------- ##
+# Depends:                                                                     #
+#       wget                                                                   #
+#       feh                                                                    #
+#       gnu parallel                                                           #
+##                                                                            ##
+# Directories needed:                                                          #
+#       ~/pictures/backgrounds                  - saved, recurring backgrounds #
+#                  backgrounds/temp             - temp dir for full fades      #
+#                              temp/_left       - left crops of fades          #
+#                              temp/_right      - right crops of fades         #
+##                                                                            ##
+# Files needed:                                                                #
+#       temp/_cur.jpg                           - current screen image         #
+#       temp/_new.jpg                           - image to fade to             #
+##                                                                            ##
+# Monitor configuration is: 1920x1080 at 0,480; 1080x1920 at 2000x0            #
+#       - monitor 2 is placed further left so as to create a slight gap,       #
+#         mimicking the physical gap caused by the bezels                      #
+################################################################################
 
 export DISPLAY=:0  # Change as needed; ie. "echo $DISPLAY" from a fresh term ###
 
@@ -6,21 +27,24 @@ cd ~/pictures/backgrounds/temp
 
 INDEX=$(ls | grep '[0-9]' | sort -r | head -n 1 | tr -d -c [0-9])
 
-if [ -f fade1000.jpg ]
+if [ -f _right/fade1000.jpg ]
 then
    for i in $(seq -f "%04g" 0 1000)
    do
-      feh --bg-fill fade$i.jpg
+      feh --bg-fill _left/fade$i.jpg \
+                   _right/fade$i.jpg
    done
 
-   rm fade*.jpg
    mv _new.jpg _cur.jpg
+   rm         fade*.jpg \
+        _left/fade*.jpg \
+       _right/fade*.jpg
 
    if [ $# -eq 1 ]
    then
       cp $1 ./_new.jpg
    else
-      if $(wget -O _new.jpg https://source.unsplash.com/random/1920x1080)
+      if $(wget -O _new.jpg https://source.unsplash.com/random/3080x1920)
       then
          if [ $RANDOM -gt $RANDOM ]
          then
@@ -50,6 +74,15 @@ generate_fades () {
 }
 export -f generate_fades
 
-seq -f "%04g" $INDEX 1000 | parallel -j7 generate_fades # Limit to 3 proc. #####
+seq -f "%04g" $INDEX 1000 | parallel -j7 generate_fades # Limit to 7 proc. #####
 
+
+generate_crops () {
+   convert fade$1.jpg -crop 1920x1080+0000+0480 +repage  _left/fade$1.jpg
+   convert fade$1.jpg -crop 1080x1920+2000+0000 +repage _right/fade$1.jpg
+}
+export -f generate_crops
+
+INDEX=$(ls _right/ | grep '[0-9]' | sort -r | head -n 1 | tr -d -c [0-9])
+seq -f "%04g" $INDEX 1000 | parallel -j7 generate_crops # Limit to 7 proc. #####
 
