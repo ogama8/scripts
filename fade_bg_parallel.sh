@@ -16,22 +16,24 @@ then
    rm fade*.jpg
    mv _new.jpg _cur.jpg
 
-   while [ ! -f _new.jpg  ]
-   do
-      if [ $# -eq 1 ]
+   if [ $# -eq 1 ]
+   then
+      cp $1 ./_new.jpg
+   else
+      if $(wget -O _new.jpg https://source.unsplash.com/random/1920x1080)
       then
-         cp $1 ./_new.jpg
-      else
          if [ $RANDOM -gt $RANDOM ]
          then
-            wget -O _new.jpg https://source.unsplash.com/random/1920x1080
-         else
             NEW=$(find ../ -maxdepth 1 -type f ! -name '*_o*')
             NEW=$(shuf -n1 -e $NEW)
             cp $NEW ./_new.jpg
          fi
+      else
+         NEW=$(find ../ -maxdepth 1 -type f ! -name '*_o*')
+         NEW=$(shuf -n1 -e $NEW)
+         cp $NEW ./_new.jpg
       fi
-   done
+   fi
 
    INDEX=0
 fi
