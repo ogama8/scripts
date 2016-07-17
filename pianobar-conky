@@ -13,6 +13,23 @@ curl -s -4 -o ~/.config/pianobar/coverArt.jpg $coverArt > /dev/null
 echo -n "$title"> ~/.config/pianobar/title
 echo -n "$album" > ~/.config/pianobar/album
 echo -n "$artist" > ~/.config/pianobar/artist
+echo -n "$artist - $title" > /tmp/at
+if [ $(cat /tmp/at | perl -nle ' print length ') -gt 32 ]
+then
+   touch      ~/.config/pianobar/gt32
+   mv /tmp/at ~/.config/pianobar/at
+else
+   while [ $(cat /tmp/at | perl -nle ' print length ') -lt 32 ]
+   do
+      echo -e " $(cat /tmp/at)" > /tmp/at
+      if [ $(cat /tmp/at | perl -nle ' print length ') -lt 32 ]
+      then
+         echo -e "$(cat /tmp/at) " > /tmp/at
+      fi
+   done
+   mv /tmp/at ~/.config/pianobar/at
+   rm         ~/.config/pianobar/gt32
+fi
 ;;
 
 
