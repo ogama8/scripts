@@ -36,9 +36,7 @@ then
    done
 
    mv _new.jpg _cur.jpg
-   rm         fade*.jpg \
-        _left/fade*.jpg \
-       _right/fade*.jpg
+   rm fade*.jpg
 
    if [ $# -eq 1 ]
    then
@@ -83,6 +81,9 @@ generate_crops () {
 }
 export -f generate_crops
 
-INDEX=$(ls _right/ | grep '[0-9]' | sort -r | head -n 1 | tr -d -c [0-9])
+rm _left/fade*.jpg \
+  _right/fade*.jpg
+
+INDEX=0
 seq -f "%04g" $INDEX 1000 | parallel -j7 generate_crops # Limit to 7 proc. #####
 
