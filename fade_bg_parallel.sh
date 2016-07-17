@@ -35,8 +35,14 @@ then
                    _right/fade$i.jpg
    done
 
-   mv _new.jpg _cur.jpg
-   rm fade*.jpg
+   mv            _new.jpg        _cur.jpg
+   mv  _left/fade1000.jpg  _left/_cur.jpg
+   mv _right/fade1000.jpg _right/_cur.jpg
+   rm         fade*.jpg \
+        _left/fade*.jpg \
+       _right/fade*.jpg
+
+
 
    if [ $# -eq 1 ]
    then
@@ -80,9 +86,6 @@ generate_crops () {
    convert fade$1.jpg -crop 1080x1920+2000+0000 +repage _right/fade$1.jpg
 }
 export -f generate_crops
-
-rm _left/fade*.jpg \
-  _right/fade*.jpg
 
 INDEX=0
 seq -f "%04g" $INDEX 1000 | parallel -j7 generate_crops # Limit to 7 proc. #####
