@@ -1,0 +1,16 @@
+#!/bin/bash
+
+echo $1 > /tmp/pad32
+
+while [ $(cat /tmp/pad32 | perl -nle ' print length ') -lt 32 ]
+do
+   echo -e " $(cat /tmp/pad32)" > /tmp/pad32
+   if [ $(cat /tmp/pad32 | perl -nle ' print length ') -lt 32 ]
+   then
+      echo -e "$(cat /tmp/pad32) " > /tmp/pad32
+   fi
+done
+
+cat /tmp/pad32
+rm  /tmp/pad32
+

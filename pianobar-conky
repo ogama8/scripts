@@ -28,7 +28,7 @@ else
       fi
    done
    mv /tmp/at ~/.config/pianobar/at
-   rm         ~/.config/pianobar/gt32
+   rm         ~/.config/pianobar/gt32 2> /dev/null
 fi
 ;;
 
