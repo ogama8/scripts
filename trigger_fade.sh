@@ -2,7 +2,7 @@
 
 if sh ~/scripts/cur_fade.sh > /dev/null
 then
-   (echo 'Fade not ready.') | dzen2 -bg '#222222' -fg '#bbbbbb' -x 850 -y 905 -w 220 -h 26 -p 3 -fn '-*-terminess powerline-medium-r-normal--*-*-*-*-*-*-*-1' &
+   (echo 'Fade not ready.') | dzen2 -bg '#222222' -fg '#ff7777' -x 850 -y 905 -w 220 -h 26 -p 3 -fn '-*-terminess powerline-medium-r-normal--*-*-*-*-*-*-*-1' &
    rm /tmp/trigger_fade
    exit 1
 fi

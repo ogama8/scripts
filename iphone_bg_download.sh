@@ -2,7 +2,7 @@
 
 cd ~/pictures/iphone_bg
 
-for i in $(seq -f "%03g" 0 999)
+for i in $(seq -f "%03g" 0 100)
 do
    clear
    echo unsplash_$i.jpg

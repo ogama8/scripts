@@ -49,6 +49,7 @@ then
       cp $1 ./_new.jpg
    else
       if $(wget -O _new.jpg https://source.unsplash.com/random/3080x1920)
+#      if $(wget -O _new.jpg https://unsplash.it/3080/1920?random)
       then
          if [ $RANDOM -gt $RANDOM ]
          then
